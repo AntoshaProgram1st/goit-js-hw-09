@@ -6,19 +6,25 @@ function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)
     .toString(16)
     .padStart(6, 0)}`;
-}
+  }
+
+let intervalId;
 
 function ColorMix() {
   intervalId = setInterval(() => {
     body.style.backgroundColor = getRandomHexColor();
   }, 1000);
   startButton.removeEventListener('click', ColorMix);
+  startButton.disabled = true;
+  stopButton.disabled = false;
 }
 startButton.addEventListener('click', ColorMix);
 
 function ColorMixStop() {
   clearInterval(intervalId);
   startButton.addEventListener('click', ColorMix);
-  stopButton.removeEventListener('click', ColorMixStop);
+
+  startButton.disabled = false;
+  stopButton.disabled = true;
 }
 stopButton.addEventListener('click', ColorMixStop);

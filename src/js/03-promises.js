@@ -1,3 +1,5 @@
+import Notiflix from 'notiflix';
+import '../../node_modules/notiflix/src/notiflix.css';
 const form = document.querySelector('.form');
 
 form.addEventListener('submit', event => {
@@ -7,16 +9,22 @@ form.addEventListener('submit', event => {
   const step = Number(document.querySelector('[name="step"]').value);
   const delay = Number(document.querySelector('[name="delay"]').value);
 
-  for (let i = 0; i <= amount; i += 1) {
+  for (let i = 0; i < amount; i += 1) {
     const position = i + 1;
     const currentDelay = delay + i * step;
 
     createPromise(position, currentDelay)
       .then(({ position, delay }) => {
-        alert(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        Notiflix.Notify.success(
+          `✅ Fulfilled promise ${position} in ${delay}ms`
+        );
+        console.log('yes');
       })
       .catch(({ position, delay }) => {
-        alert(`❌ Rejected promise ${position} in ${delay}ms`);
+        Notiflix.Notify.warning(
+          `❌ Rejected promise ${position} in ${delay}ms`
+        );
+        console.log('no');
       });
   }
 });
