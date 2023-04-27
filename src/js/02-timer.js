@@ -2,7 +2,9 @@
 import flatpickr from 'flatpickr';
 // Додатковий імпорт стилів
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
+
 import Notiflix from 'notiflix';
+import '../../node_modules/notiflix/src/notiflix.css';
 
 const options = {
   enableTime: true,
@@ -12,7 +14,7 @@ const options = {
   onClose(selectedDates) {
     console.log(selectedDates[0]);
   },
-}; 
+};
 const picker = document.querySelector('#datetime-picker');
 const start = document.querySelector('[data-start]');
 const dayValue = document.querySelector('[data-days]');
@@ -27,14 +29,14 @@ const valueBlocks = document.querySelectorAll('.value');
 timerBlock.style.display = 'flex';
 timerBlock.style.gap = '5px';
 
-numberBlocks.forEach((block) => {
+numberBlocks.forEach(block => {
   block.style.display = 'flex';
   block.style.flexDirection = 'column';
-})
-valueBlocks.forEach((block) => {
-  block.style.textAlign = "center"
+});
+valueBlocks.forEach(block => {
+  block.style.textAlign = 'center';
   block.style.fontSize = '30px';
-})
+});
 
 flatpickr(picker, options);
 
@@ -63,23 +65,21 @@ function timerCount() {
   const inputDate = new Date(picker.value);
   const currentDate = new Date();
   if (inputDate < currentDate) {
-    Notiflix.Notify.warning(
-      '"Please choose a date in the future'
-    );
+    Notiflix.Notify.warning('"Please choose a date in the future');
     clearInterval(countIntervalId);
-    return
+    return;
   }
   const timerDate = inputDate - currentDate;
   const { days, hours, minutes, seconds } = convertMs(timerDate);
-    dayValue.textContent = days.toString().padStart(2, '0');
-    hourValue.textContent = hours.toString().padStart(2, '0');
-    minuteValue.textContent = minutes.toString().padStart(2, '0');
+  dayValue.textContent = days.toString().padStart(2, '0');
+  hourValue.textContent = hours.toString().padStart(2, '0');
+  minuteValue.textContent = minutes.toString().padStart(2, '0');
   secondValue.textContent = seconds.toString().padStart(2, '0');
-  
+
   if (timerDate <= 0) {
     clearInterval(countIntervalId);
   }
-  }
+}
 start.addEventListener('click', () => {
   countIntervalId = setInterval(() => {
     timerCount();
